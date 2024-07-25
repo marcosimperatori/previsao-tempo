@@ -6,7 +6,6 @@ import TempoReal from "./components/TempoReal";
 function App() {
   const [tempo, setTempo] = useState();
   const [erro, setErro] = useState(null);
-
   const nomeCidade = useRef(null);
 
   async function buscarCidade() {
@@ -19,16 +18,15 @@ function App() {
     setTempo(null);
 
     try {
-      const resultado = await axios.get(url);
+      const { data } = await axios.get(url);
 
-      if (resultado.data.cod === 200) {
-        setTempo(resultado.data);
+      if (data.cod === 200) {
+        setTempo(data);
       } else {
-        setErro("Erro ao buscar previsão do tempo para a cidade pesquisada!");
+        setErro("Não foi possível encontrar os dados da cidade informada.");
       }
     } catch (error) {
-      setErro(`Erro ao buscar previsão do tempo para a cidade pesquisada (${qCidade})!`);
-      console.log(error.response.data)
+      setErro("Não foi possível encontrar os dados da cidade informada.");
     }
   }
 
