@@ -2,9 +2,11 @@ import { useRef, useState } from "react";
 import "./App.css";
 import axios from "axios";
 import TempoReal from "./components/TempoReal";
+import TempoFuturo from "./components/TempoFuturo";
 
 function App() {
   const [tempo, setTempo] = useState();
+  const [proximos, setProximos] = useState();
   const [erro, setErro] = useState(null);
   const nomeCidade = useRef(null);
 
@@ -12,16 +14,19 @@ function App() {
     const qCidade = nomeCidade.current.value;
     const key = "ae593ae8de1041da33887e261615a302";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${qCidade}&appid=${key}&lang=pt_br&units=metric`;
+    const urlProximos = `https://api.openweathermap.org/data/2.5/forecast?q=${qCidade}&appid=${key}&lang=pt_br&units=metric`;
 
-    //resetar erro antes de cada chamada a api
     setErro("");
     setTempo(null);
+    setProximos(null);
 
     try {
       const { data } = await axios.get(url);
+      const result = await axios.get(urlProximos);
 
       if (data.cod === 200) {
         setTempo(data);
+        setProximos(result.data.list);
       } else {
         setErro("Não foi possível encontrar os dados da cidade informada.");
       }
@@ -32,7 +37,7 @@ function App() {
 
   return (
     <div className="container">
-      <h1>Serviço de previsão do tempo</h1>
+      <h1>Previsão do tempo</h1>
       <input ref={nomeCidade} type="text" name="cidade" id="cidade" />
       <button onClick={buscarCidade}>Buscar</button>
       {erro && (
@@ -49,6 +54,7 @@ function App() {
         </div>
       )}
       {tempo && <TempoReal tempo={tempo} />}
+      {proximos && <TempoFuturo nextDays={proximos} />}
     </div>
   );
 }

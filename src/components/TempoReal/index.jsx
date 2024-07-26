@@ -2,8 +2,6 @@
 
 import "./tempo_real.css";
 
-import TempoFuturo from "../TempoFuturo";
-
 const TempoReal = ({ tempo }) => {
   return (
     <>
@@ -21,9 +19,7 @@ const TempoReal = ({ tempo }) => {
           <p>Umidade: {tempo.main.humidity}%</p>
           <p>Pressão: {tempo.main.pressure}</p>
         </div>
-      </div>
-
-      <TempoFuturo/>
+      </div>      
     </>
   );
 };
