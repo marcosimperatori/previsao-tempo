@@ -18,5 +18,4 @@ O usuário digita o nome da cidade que deseja consulta, o aplicativa faz uma con
 Trata-se de um projeto para fins didáticos apenas.
 
 
-
 ![tela-principal](img/principal.jpg)
